@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfig {
@@ -12,10 +13,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        SavedRequestAwareAuthenticationSuccessHandler porDefecto =
+                new SavedRequestAwareAuthenticationSuccessHandler();
+        porDefecto.setDefaultTargetUrl("/");
+
         AuthenticationSuccessHandler porRol = (request, response, authentication) -> {
             boolean esAdmin = authentication.getAuthorities().stream()
                     .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-            response.sendRedirect(request.getContextPath() + (esAdmin ? "/admin" : "/"));
+            if (esAdmin) {
+                response.sendRedirect(request.getContextPath() + "/admin");
+            } else {
+                porDefecto.onAuthenticationSuccess(request, response, authentication);
+            }
         };
 
         http

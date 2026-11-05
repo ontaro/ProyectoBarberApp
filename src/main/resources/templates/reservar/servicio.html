@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Reservar cita')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container my-5">
+    <h2 class="fw-bold text-center mb-1">Reservar cita</h2>
+    <p class="text-center text-secondary mb-4">Paso 1: elige tu servicio</p>
+
+    <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
+
+    <form th:action="@{/reservar}" method="post">
+        <div class="row g-3 justify-content-center">
+            <div class="col-6 col-md-3" th:each="s : ${servicios}">
+                <input type="radio" class="btn-check" name="servicioId"
+                       th:id="'serv' + ${s.id}" th:value="${s.id}"
+                       th:checked="${servicioSeleccionado != null and servicioSeleccionado == s.id}">
+                <label class="btn btn-outline-dark w-100 h-100 py-4" th:for="'serv' + ${s.id}">
+                    <span class="d-block fw-bold text-uppercase" th:text="${s.nombre}">Servicio</span>
+                    <span class="d-block"
+                          th:text="'₡' + ${#numbers.formatDecimal(s.precio, 1, 'POINT', 0, 'COMMA')}">₡0</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-danger px-5">Continuar</button>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+</body>
+</html>
