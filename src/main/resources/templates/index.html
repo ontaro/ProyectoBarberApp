@@ -4,6 +4,7 @@
 <body>
 
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:if="${exito}" class="alert alert-success text-center m-0 rounded-0" th:text="${exito}"></div>
 
 <!-- HERO -->
 <header class="hero d-flex align-items-end">

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Registro')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="fw-bold text-center mb-4">Crear cuenta</h2>
+
+                    <form th:action="@{/registro}" th:object="${registroForm}" method="post" novalidate>
+
+                        <div class="mb-3">
+                            <label for="nombreCompleto" class="form-label">Nombre completo</label>
+                            <input type="text" id="nombreCompleto" class="form-control"
+                                   th:field="*{nombreCompleto}"
+                                   th:classappend="${#fields.hasErrors('nombreCompleto')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:errors="*{nombreCompleto}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo electrónico</label>
+                            <input type="email" id="correo" class="form-control"
+                                   th:field="*{correo}"
+                                   th:classappend="${#fields.hasErrors('correo')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:errors="*{correo}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" id="telefono" class="form-control"
+                                   th:field="*{telefono}"
+                                   th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:errors="*{telefono}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="contrasena" class="form-label">Contraseña</label>
+                            <input type="password" id="contrasena" class="form-control"
+                                   th:field="*{contrasena}"
+                                   th:classappend="${#fields.hasErrors('contrasena')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:errors="*{contrasena}"></div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="confirmarContrasena" class="form-label">Confirmar contraseña</label>
+                            <input type="password" id="confirmarContrasena" class="form-control"
+                                   th:field="*{confirmarContrasena}"
+                                   th:classappend="${#fields.hasErrors('confirmarContrasena')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:errors="*{confirmarContrasena}"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100">Registrarme</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+</body>
+</html>
