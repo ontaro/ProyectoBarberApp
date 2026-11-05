@@ -1,0 +1,6 @@
+.hero {
+    min-height: 60vh;
+    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.85)), #1a1a1a;
+    /* Cuando tengan la imagen: url('/img/hero.jpg') center/cover */
+}
+.card { min-height: 200px; }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<!-- HERO -->
+<header class="hero d-flex align-items-end">
+    <div class="container pb-5">
+        <small class="text-uppercase text-light-emphasis">— Quality and Style —</small>
+        <h1 class="display-5 fw-bold text-white">TU ESTILO,<br>NUESTRA EXPERIENCIA</h1>
+    </div>
+</header>
+
+<!-- SERVICIOS (por ahora estáticos; en HU-04 se cargan de la base de datos) -->
+<section id="servicios" class="bg-body-secondary py-5">
+    <div class="container text-center">
+        <small class="text-uppercase text-secondary">— Nuestros —</small>
+        <h2 class="fw-bold mb-4">SERVICIOS</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-3" th:each="s : ${#strings.arraySplit('Corte,Barba,Cejas,Otros', ',')}">
+                <div class="card bg-black text-white h-100">
+                    <div class="card-body d-flex flex-column justify-content-end">
+                        <h5 class="card-title text-uppercase" th:text="${s}">Servicio</h5>
+                        <a class="btn btn-outline-light btn-sm" th:href="@{/reservar}">Reservar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+</body>
+</html>
