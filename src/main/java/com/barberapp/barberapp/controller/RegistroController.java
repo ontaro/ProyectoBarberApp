@@ -45,7 +45,7 @@ public class RegistroController {
         }
 
         usuarioService.registrar(form);
-        redirect.addFlashAttribute("exito", "Registro exitoso. Pronto podrás iniciar sesión.");
-        return "redirect:/";
+        redirect.addFlashAttribute("exito", "Registro exitoso. Ya puedes iniciar sesión.");
+        return "redirect:/login";
     }
 }
