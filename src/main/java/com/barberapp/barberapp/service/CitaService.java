@@ -61,7 +61,7 @@ public class CitaService {
 
     @Transactional
     public Cita reservar(Usuario cliente, Servicio servicio, Barbero barbero,
-                         LocalDate fecha, LocalTime hora) {
+            LocalDate fecha, LocalTime hora) {
         // Se bloquea al barbero: si dos clientes reservan a la vez,
         // el segundo espera, vuelve a revisar y encuentra la hora ocupada.
         entityManager.find(Barbero.class, barbero.getIdBarbero(), LockModeType.PESSIMISTIC_WRITE);
@@ -84,5 +84,14 @@ public class CitaService {
     public Optional<Cita> buscarDeCliente(Long idCita, String correo) {
         return citaRepository.findById(idCita)
                 .filter(c -> c.getCliente().getCorreo().equals(correo));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Cita> obtenerCitasFuturas(String correoCliente) {
+        return citaRepository.buscarCitasFuturas(
+                correoCliente,
+                hoy(),
+                LocalTime.now(ZONA)
+        );
     }
 }
