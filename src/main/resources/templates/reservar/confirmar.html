@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<main class="container my-5" style="max-width: 700px;">
+    <h2 class="fw-bold text-center mb-1">Reservar cita</h2>
+    <p class="text-center text-secondary mb-4">Paso 4: revisa tus datos y confirma</p>
+
+    <div class="card mb-3">
+        <div class="card-header fw-bold">Tus datos</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Nombre:</strong> <span th:text="${cliente.nombreCompleto}">Nombre</span></li>
+            <li class="list-group-item"><strong>Correo:</strong> <span th:text="${cliente.correo}">correo@ejemplo.com</span></li>
+            <li class="list-group-item"><strong>Teléfono:</strong> <span th:text="${cliente.telefono}">8888 8888</span></li>
+        </ul>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header fw-bold">Resumen de la cita</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Servicio:</strong> <span th:text="${servicio.nombre}">Corte</span></li>
+            <li class="list-group-item"><strong>Precio:</strong>
+                <span th:text="'₡' + ${#numbers.formatDecimal(servicio.precio, 1, 'POINT', 0, 'COMMA')}">₡0</span></li>
+            <li class="list-group-item"><strong>Barbero:</strong> <span th:text="${barbero.nombre}">Carlos</span></li>
+            <li class="list-group-item"><strong>Fecha:</strong>
+                <span th:text="${#temporals.format(fecha, 'dd/MM/yyyy')}">01/01/2026</span></li>
+            <li class="list-group-item"><strong>Hora:</strong>
+                <span th:text="${#temporals.format(hora, 'HH:mm')}">09:00</span></li>
+        </ul>
+    </div>
+
+    <form th:action="@{/reservar/finalizar}" method="post" class="text-center">
+        <input type="hidden" name="servicioId" th:value="${servicio.idServicio}"/>
+        <input type="hidden" name="barberoId" th:value="${barbero.idBarbero}"/>
+        <input type="hidden" name="fecha" th:value="${fecha}"/>
+        <input type="hidden" name="hora" th:value="${#temporals.format(hora, 'HH:mm')}"/>
+
+        <a class="btn btn-outline-secondary px-4 me-2"
+           th:href="@{/reservar/fecha(servicioId=${servicio.idServicio}, barberoId=${barbero.idBarbero}, fecha=${fecha})}">Atrás</a>
+        <button type="submit" class="btn btn-danger px-5">Confirmar cita</button>
+    </form>
+</main>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>

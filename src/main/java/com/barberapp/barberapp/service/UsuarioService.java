@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
@@ -27,5 +29,9 @@ public class UsuarioService {
         usuario.setContrasena(passwordEncoder.encode(form.getContrasena()));
         usuario.setRol(Rol.CLIENTE);
         return usuarioRepository.save(usuario);
+    }
+
+    public Optional<Usuario> buscarPorCorreo(String correo) {
+        return usuarioRepository.findByCorreo(correo.trim().toLowerCase());
     }
 }

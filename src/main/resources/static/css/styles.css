@@ -1,6 +1,38 @@
-.hero {
-    min-height: 60vh;
-    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.85)), #1a1a1a;
-    /* Cuando tengan la imagen: url('/img/hero.jpg') center/cover */
+
+.navbar .nav-link {
+    color: rgba(255, 255, 255, .85);
+    transition: color .2s;
 }
-.card { min-height: 200px; }
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: #dc3545;
+}
+
+.hero {
+    min-height: 45vh;
+    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.85)), #1a1a1a;
+}
+
+.servicios-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+.servicios-grid > div {
+    flex: 0 1 260px;
+}
+.servicio-card {
+    min-height: 220px;
+    border: 0;
+    border-radius: .75rem;
+    transition: transform .2s, box-shadow .2s;
+}
+.servicio-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .25);
+}
+.servicio-icono {
+    font-size: 2.2rem;
+    color: #dc3545;
+}

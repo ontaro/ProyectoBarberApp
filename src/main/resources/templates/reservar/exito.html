@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<main class="container my-5" style="max-width: 700px;">
+    <div class="text-center mb-4">
+        <i class="fa-solid fa-circle-check fa-4x text-success mb-3"></i>
+        <h2 class="fw-bold">¡Tu cita quedó reservada!</h2>
+        <p class="text-secondary">Estos son los datos de tu reservación.</p>
+    </div>
+
+    <div class="card mb-4">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Servicio:</strong> <span th:text="${cita.servicio.nombre}">Corte</span></li>
+            <li class="list-group-item"><strong>Barbero:</strong> <span th:text="${cita.barbero.nombre}">Carlos</span></li>
+            <li class="list-group-item"><strong>Fecha:</strong>
+                <span th:text="${#temporals.format(cita.fecha, 'dd/MM/yyyy')}">01/01/2026</span></li>
+            <li class="list-group-item"><strong>Hora:</strong>
+                <span th:text="${#temporals.format(cita.hora, 'HH:mm')}">09:00</span></li>
+            <li class="list-group-item"><strong>Estado:</strong>
+                <span class="badge bg-success" th:text="${cita.estado}">RESERVADA</span></li>
+        </ul>
+    </div>
+
+    <div class="text-center">
+        <a class="btn btn-dark px-4" th:href="@{/}">Volver al inicio</a>
+    </div>
+</main>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>
