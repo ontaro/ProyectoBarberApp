@@ -26,6 +26,8 @@
                 </ul>
                 <div class="d-flex gap-2">
                     <a class="btn btn-danger" th:href="@{/reservar}">Reservar cita</a>
+                    <a class="btn btn-outline-light" th:href="@{/mis-citas}" sec:authorize="hasRole('CLIENTE')">
+                        <i class="fa-solid fa-calendar-check me-1"></i>Mis citas</a>
                     <a class="btn btn-outline-light" th:href="@{/login}" sec:authorize="isAnonymous()">Iniciar sesión</a>
                     <a class="btn btn-outline-light" th:href="@{/registro}" sec:authorize="isAnonymous()">Registrarse</a>
                     <a class="btn btn-warning" th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">Administración</a>
@@ -40,7 +42,7 @@
 
 <footer th:fragment="footer" class="bg-black text-white text-center py-3 mt-5">
     <p class="mb-1"><i class="fa-solid fa-phone"></i> +506 8888 8888 &nbsp; | &nbsp;
-       <i class="fa-solid fa-location-dot"></i> San José, Costa Rica</p>
+        <i class="fa-solid fa-location-dot"></i> San José, Costa Rica</p>
     <small class="text-secondary">Quality and Style © 2026</small>
 </footer>
 
