@@ -1,0 +1,100 @@
+<head th:fragment="head">
+    <title>Quality and Style</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-black">
+        <div class="container">
+            <a class="navbar-brand fw-bold" th:href="@{/}">Quality and Style</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                    <li class="nav-item px-2"><a class="nav-link" th:href="@{/#servicios}">Servicios</a></li>
+                    <li class="nav-item px-2"><a class="nav-link" href="#">Nosotros</a></li>
+                    <li class="nav-item px-2"><a class="nav-link" href="#">Contacto</a></li>
+                </ul>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-danger" th:href="@{/reservar}">Reservar cita</a>
+                    <a class="btn btn-outline-light" th:href="@{/login}" sec:authorize="isAnonymous()">Iniciar sesión</a>
+                    <a class="btn btn-outline-light" th:href="@{/registro}" sec:authorize="isAnonymous()">Registrarse</a>
+                    <a class="btn btn-warning" th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">Administración</a>
+                    <form th:action="@{/logout}" method="post" class="d-inline" sec:authorize="isAuthenticated()">
+                        <button type="submit" class="btn btn-outline-light">Cerrar sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<footer th:fragment="footer" class="bg-black text-white text-center py-3 mt-5">
+    <p class="mb-1"><i class="fa-solid fa-phone"></i> +506 8888 8888 &nbsp; | &nbsp;
+       <i class="fa-solid fa-location-dot"></i> San José, Costa Rica</p>
+    <small class="text-secondary">Quality and Style © 2026</small>
+</footer>
+
+<section th:fragment="mostrarToast">
+    <div aria-live="polite" aria-atomic="true" class="position-fixed top-50 start-50 translate-middle" style="z-index: 1080;">
+        <div th:if="${error}" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header text-white bg-danger">
+                <i class="fa-solid fa-bomb me-2"></i><strong class="me-auto">[[#{error}]]</strong>
+            </div>
+            <div class="toast-body">
+                <p>[[${error}]]</p>
+                <div class="mt-2 pt-2 border-top text-center">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">[[#{accion.cerrar}]]</button>
+                </div>
+            </div>
+        </div>
+        <div th:if="${todoOk}" class="toast show" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-header text-white bg-success">
+                <i class="fa-solid fa-square-check me-2"></i><strong class="me-auto">[[#{atencion}]]</strong>
+            </div>
+            <div class="toast-body">
+                <p>[[${todoOk}]]</p>
+                <div class="mt-2 pt-2 border-top text-center">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">[[#{accion.cerrar}]]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section th:fragment="confirmarEliminar(accion, campoId)">
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" th:action="${accion}">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">[[#{accion.confirmar}]]</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="[[#{accion.cerrar}]]"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="modalId" th:name="${campoId}"/>
+                        <p>[[#{accion.confirmar.texto1}]] <strong id="modalDescripcion"></strong>?</p>
+                        <p class="text-secondary mb-0">[[#{accion.confirmar.texto2}]]</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark"></i> [[#{accion.cerrar}]]
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-trash"></i> [[#{accion.eliminar}]]
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

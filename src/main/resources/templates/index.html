@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+<head th:replace="~{general/fragmentos :: head}"></head>
 <body>
 
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{general/fragmentos :: header}"></header>
 <div th:if="${exito}" class="alert alert-success text-center m-0 rounded-0" th:text="${exito}"></div>
 
-<!-- HERO -->
 <header class="hero d-flex align-items-end">
     <div class="container pb-5">
         <small class="text-uppercase text-light-emphasis">— Quality and Style —</small>
@@ -14,7 +13,6 @@
     </div>
 </header>
 
-<!-- SERVICIOS (por ahora estáticos; en HU-04 se cargan de la base de datos) -->
 <section id="servicios" class="bg-body-secondary py-5">
     <div class="container text-center">
         <small class="text-uppercase text-secondary">— Nuestros —</small>
@@ -32,7 +30,7 @@
                         <p class="fw-semibold mb-3"
                            th:text="'₡' + ${#numbers.formatDecimal(s.precio, 1, 'POINT', 0, 'COMMA')}">₡0</p>
                         <a class="btn btn-outline-light btn-sm"
-                           th:href="@{/reservar(servicioId=${s.id})}">Reservar</a>
+                           th:href="@{/reservar(servicioId=${s.idServicio})}"
                     </div>
                 </div>
             </div>
@@ -40,8 +38,7 @@
     </div>
 </section>
 
-<footer th:replace="~{fragments/layout :: footer}"></footer>
-<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
 
 </body>
 </html>

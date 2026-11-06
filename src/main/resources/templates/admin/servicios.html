@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<main class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold mb-0">Servicios</h1>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#servicioModal" data-modo="agregar">
+            <i class="fa-solid fa-plus"></i> Agregar
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped table-hover align-middle" th:if="${!#lists.isEmpty(servicios)}">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="s : ${servicios}">
+                        <td th:text="${s.idServicio}"></td>
+                        <td th:text="${s.nombre}"></td>
+                        <td th:text="'₡' + ${#numbers.formatDecimal(s.precio, 1, 'POINT', 0, 'COMMA')}"></td>
+                        <td th:text="${s.activo} ? 'Activo' : 'Inactivo'"></td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#servicioModal" data-modo="editar"
+                                    th:data-id="${s.idServicio}" th:data-nombre="${s.nombre}"
+                                    th:data-precio="${s.precio}" th:data-activo="${s.activo}">
+                                <i class="fas fa-pencil-alt"></i> Actualizar
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal"
+                                    th:data-bs-id="${s.idServicio}" th:data-bs-descripcion="${s.nombre}">
+                                <i class="fa-solid fa-trash"></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-center text-secondary mb-0" th:if="${#lists.isEmpty(servicios)}">
+                No hay servicios registrados.
+            </p>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="servicioModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/admin/servicios/guardar}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="servicioTitulo"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="servicioId" name="idServicio"/>
+                    <div class="mb-3">
+                        <label for="servicioNombre" class="form-label">Nombre</label>
+                        <input type="text" id="servicioNombre" name="nombre" class="form-control" maxlength="60" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="servicioPrecio" class="form-label">Precio (₡)</label>
+                        <input type="number" id="servicioPrecio" name="precio" class="form-control"
+                               min="0.01" step="0.01" required/>
+                    </div>
+                    <div class="form-check">
+                        <input type="hidden" name="_activo" value="on"/>
+                        <input type="checkbox" id="servicioActivo" name="activo" class="form-check-input"/>
+                        <label for="servicioActivo" class="form-check-label">Activo</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i> Cerrar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<section th:replace="~{general/fragmentos :: confirmarEliminar(@{/admin/servicios/eliminar},'idServicio')}"></section>
+<section th:replace="~{general/fragmentos :: mostrarToast}"></section>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('servicioModal');
+    const titulo = document.getElementById('servicioTitulo');
+    const id = document.getElementById('servicioId');
+    const nombre = document.getElementById('servicioNombre');
+    const precio = document.getElementById('servicioPrecio');
+    const activo = document.getElementById('servicioActivo');
+
+    modal.addEventListener('show.bs.modal', function (evento) {
+        const boton = evento.relatedTarget;
+        if (boton.dataset.modo === 'editar') {
+            titulo.textContent = 'Actualizar servicio';
+            id.value = boton.dataset.id;
+            nombre.value = boton.dataset.nombre;
+            precio.value = boton.dataset.precio;
+            activo.checked = boton.dataset.activo === 'true';
+        } else {
+            titulo.textContent = 'Agregar servicio';
+            id.value = '';
+            nombre.value = '';
+            precio.value = '';
+            activo.checked = true;
+        }
+    });
+
+    const confirmar = document.getElementById('confirmModal');
+    confirmar.addEventListener('show.bs.modal', function (evento) {
+        const boton = evento.relatedTarget;
+        document.getElementById('modalId').value = boton.dataset.bsId;
+        document.getElementById('modalDescripcion').textContent = boton.dataset.bsDescripcion;
+    });
+});
+</script>
+
+<script>
+setTimeout(function () {
+    document.querySelectorAll('.toast').forEach(function (t) {
+        t.classList.remove('show');
+    });
+}, 4000);
+</script>
+</body>
+</html>

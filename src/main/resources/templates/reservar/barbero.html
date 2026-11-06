@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<main class="container my-5">
+    <h2 class="fw-bold text-center mb-1">Reservar cita</h2>
+    <p class="text-center text-secondary mb-1">Paso 2: elige tu barbero</p>
+    <p class="text-center mb-4">
+        Servicio: <strong th:text="${servicio.nombre}">Corte</strong>
+    </p>
+
+    <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
+
+    <div th:if="${#lists.isEmpty(barberos)}" class="alert alert-warning text-center">
+        Por el momento no hay barberos disponibles.
+    </div>
+
+    <form th:action="@{/reservar/barbero}" method="post" th:unless="${#lists.isEmpty(barberos)}">
+        <input type="hidden" name="servicioId" th:value="${servicioId}"/>
+
+        <div class="row g-3 justify-content-center">
+            <div class="col-12 col-md-4" th:each="b : ${barberos}">
+                <input type="radio" class="btn-check" name="barberoId"
+                       th:id="'barb' + ${b.idBarbero}" th:value="${b.idBarbero}">
+                <label class="btn btn-outline-dark w-100 h-100 py-4" th:for="'barb' + ${b.idBarbero}">
+                    <i class="fa-solid fa-scissors fa-2x mb-2"></i>
+                    <span class="d-block fw-bold text-uppercase" th:text="${b.nombre}">Barbero</span>
+                    <span class="d-block small" th:text="${b.descripcion}">Descripción</span>
+                    <span class="d-block small text-secondary"
+                          th:text="${b.horaInicio} + ' - ' + ${b.horaFin}">09:00 - 18:00</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a class="btn btn-outline-secondary px-4 me-2" th:href="@{/reservar(servicioId=${servicioId})}">Atrás</a>
+            <button type="submit" class="btn btn-danger px-5">Continuar</button>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>

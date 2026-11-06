@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<main class="container my-5">
+    <h2 class="fw-bold text-center mb-1">Reservar cita</h2>
+    <p class="text-center text-secondary mb-1">Paso 3: elige fecha y hora</p>
+    <p class="text-center mb-4">
+        Servicio: <strong th:text="${servicio.nombre}">Corte</strong>
+        &nbsp;|&nbsp;
+        Barbero: <strong th:text="${barbero.nombre}">Carlos</strong>
+    </p>
+
+    <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
+
+    <form th:action="@{/reservar/fecha}" method="get" class="row g-2 justify-content-center mb-4">
+        <input type="hidden" name="servicioId" th:value="${servicio.idServicio}"/>
+        <input type="hidden" name="barberoId" th:value="${barbero.idBarbero}"/>
+        <div class="col-12 col-md-4">
+            <label for="fecha" class="form-label fw-bold">Fecha</label>
+            <input type="date" id="fecha" name="fecha" class="form-control"
+                   th:min="${hoy}" th:value="${fecha}" required/>
+        </div>
+        <div class="col-12 col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-dark w-100">Ver horas disponibles</button>
+        </div>
+    </form>
+
+    <div th:if="${fecha != null and horas != null and #lists.isEmpty(horas)}"
+         class="alert alert-warning text-center">
+        No hay horas disponibles para esta fecha. Prueba con otro día.
+    </div>
+
+    <form th:action="@{/reservar/confirmar}" method="post"
+          th:if="${horas != null and !#lists.isEmpty(horas)}">
+        <input type="hidden" name="servicioId" th:value="${servicio.idServicio}"/>
+        <input type="hidden" name="barberoId" th:value="${barbero.idBarbero}"/>
+        <input type="hidden" name="fecha" th:value="${fecha}"/>
+
+        <h5 class="text-center mb-3">Horas disponibles</h5>
+        <div class="row g-2 justify-content-center">
+            <div class="col-4 col-md-2" th:each="h : ${horas}">
+                <input type="radio" class="btn-check" name="hora" required
+                       th:id="'hora' + ${#temporals.format(h, 'HHmm')}"
+                       th:value="${#temporals.format(h, 'HH:mm')}">
+                <label class="btn btn-outline-dark w-100"
+                       th:for="'hora' + ${#temporals.format(h, 'HHmm')}"
+                       th:text="${#temporals.format(h, 'HH:mm')}">09:00</label>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-danger px-5">Continuar</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-secondary px-4"
+           th:href="@{/reservar/barbero(servicioId=${servicio.idServicio})}">Atrás</a>
+    </div>
+</main>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>

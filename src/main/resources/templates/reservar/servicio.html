@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Reservar cita')}"></head>
+<head th:replace="~{general/fragmentos :: head}"></head>
 <body>
 
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{general/fragmentos :: header}"></header>
 
 <main class="container my-5">
     <h2 class="fw-bold text-center mb-1">Reservar cita</h2>
@@ -14,15 +14,15 @@
     <form th:action="@{/reservar}" method="post">
         <div class="row g-3 justify-content-center">
             <div class="col-6 col-md-3" th:each="s : ${servicios}">
-                <input type="radio" class="btn-check" name="servicioId"
-                       th:id="'serv' + ${s.id}" th:value="${s.id}"
-                       th:checked="${servicioSeleccionado != null and servicioSeleccionado == s.id}">
-                <label class="btn btn-outline-dark w-100 h-100 py-4" th:for="'serv' + ${s.id}">
-                    <span class="d-block fw-bold text-uppercase" th:text="${s.nombre}">Servicio</span>
-                    <span class="d-block"
-                          th:text="'₡' + ${#numbers.formatDecimal(s.precio, 1, 'POINT', 0, 'COMMA')}">₡0</span>
-                </label>
-            </div>
+    <input type="radio" class="btn-check" name="servicioId"
+           th:id="'serv' + ${s.idServicio}" th:value="${s.idServicio}"
+           th:checked="${servicioSeleccionado != null and servicioSeleccionado == s.idServicio}">
+    <label class="btn btn-outline-dark w-100 h-100 py-4" th:for="'serv' + ${s.idServicio}">
+        <span class="d-block fw-bold text-uppercase" th:text="${s.nombre}">Servicio</span>
+        <span class="d-block"
+              th:text="'₡' + ${#numbers.formatDecimal(s.precio, 1, 'POINT', 0, 'COMMA')}">₡0</span>
+    </label>
+</div>
         </div>
 
         <div class="text-center mt-4">
@@ -31,8 +31,7 @@
     </form>
 </main>
 
-<footer th:replace="~{fragments/layout :: footer}"></footer>
-<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
 
 </body>
 </html>

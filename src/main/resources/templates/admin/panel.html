@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Panel de administración')}"></head>
+<head th:replace="~{general/fragmentos :: head}"></head>
 <body>
 
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{general/fragmentos :: header}"></header>
 
 <main class="container my-5">
     <h1 class="fw-bold mb-4">Panel de administración</h1>
@@ -11,13 +11,13 @@
         <div class="col-md-4">
             <div class="card h-100"><div class="card-body">
                 <h5 class="card-title">Servicios</h5>
-                <p class="card-text text-secondary">Próximamente (HU-16).</p>
+                <a class="btn btn-danger" th:href="@{/admin/servicios}">Administrar</a>
             </div></div>
         </div>
         <div class="col-md-4">
             <div class="card h-100"><div class="card-body">
                 <h5 class="card-title">Barberos</h5>
-                <p class="card-text text-secondary">Próximamente (HU-15).</p>
+                <a class="btn btn-danger" th:href="@{/admin/barberos}">Administrar</a>
             </div></div>
         </div>
         <div class="col-md-4">
@@ -29,8 +29,7 @@
     </div>
 </main>
 
-<footer th:replace="~{fragments/layout :: footer}"></footer>
-<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
 
 </body>
 </html>
